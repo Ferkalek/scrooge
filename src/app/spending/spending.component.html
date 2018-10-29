@@ -1,0 +1,62 @@
+<form [formGroup]="mForm" (ngSubmit)="onSubmit()">
+  <input type="hidden" formControlName="$key">
+
+  <div class="form-group">
+    <label>Title</label>
+    <input
+            type="text"
+            class="form-control"
+            formControlName="title"
+            [ngClass]="{'is-invalid': submitted && mForm.get('title').invalid}"
+    >
+    <div class="invalid-feedback"
+         *ngIf="submitted && mForm.get('title')['errors']['require']"
+    >This field is required!</div>
+    <div class="invalid-feedback"
+         *ngIf="submitted && mForm.get('title')['errors']['minLength']"
+    >At least 3 charts!</div>
+  </div>
+
+  <div class="form-group">
+    <label>Cost</label>
+    <input
+            type="text"
+            class="form-control"
+            formControlName="cost"
+            [ngClass]="{'is-invalid': submitted && mForm.get('cost').invalid}"
+    >
+    <div class="invalid-feedback"
+         *ngIf="submitted && mForm.get('cost')['errors']['required']"
+    >This field is required!</div>
+  </div>
+
+  <div class="form-group">
+    <input type="submit" class="btn btn-primary" value="Submit">
+  </div>
+</form>
+
+<table class="table table-sm">
+  <thead>
+  <th>Title</th>
+  <th>Cost</th>
+  <th>Date</th>
+  <th></th>
+  </thead>
+  <ng-container *ngFor="let c of spendingArr">
+    <tr>
+      <td>{{c.title}}</td>
+      <td>{{c.cost}}</td>
+      <td>{{c.date}}</td>
+      <td>
+        <button
+                class="btn btn-outline-info"
+                (click)="editSpending(c)"
+        >Edit</button>
+        <button
+                class="btn btn-outline-danger"
+                (click)="onDelete(c.$key)"
+        >Delete</button>
+      </td>
+    </tr>
+  </ng-container>
+</table>

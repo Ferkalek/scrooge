@@ -1,0 +1,12 @@
+<div class="menu">
+  <span routerLinkActive="active"><a routerLink="/main">App</a></span>
+  <div>
+    <span *ngIf="!isAuth" routerLinkActive="active"><a routerLink="/login">Login</a></span>
+    <span *ngIf="!isAuth" routerLinkActive="active"><a routerLink="/registration">Registration</a></span>
+    <span *ngIf="isAuth" routerLinkActive="active" (click)="logOut()">Log out</span>
+  </div>
+</div>
+<br>
+<br>
+
+<router-outlet></router-outlet>

@@ -1,0 +1,30 @@
+<h2>Page of registration!</h2>
+<br>
+<hr>
+<br>
+
+<form (ngSubmit)="onRegistration(f)" #f="ngForm">
+  <div>
+    <label for="email">Mail</label>
+    <input
+            type="email"
+            name="email"
+            id="email"
+            #email="ngModel"
+            [ngModel]
+    >
+  </div>
+
+  <div>
+    <label for="password">Password</label>
+    <input
+            type="password"
+            name="password"
+            id="password"
+            #password="ngModel"
+            [ngModel]
+    >
+  </div>
+
+  <button type="submit">Registration</button>
+</form>

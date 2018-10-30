@@ -1,30 +1,132 @@
-<h2>Page of registration!</h2>
-<br>
-<hr>
-<br>
+<h1 class="text-center mt-5 px-4">Signup page</h1>
+<form
+        class="max-width-320 content-center px-4"
+        [formGroup]="signupForm"
+        (ngSubmit)="onSignup()">
+  <mat-form-field>
+    <input
+            type="email"
+            formControlName="email"
+            matInput
+            placeholder="Email"
+            required
+    >
+    <mat-error *ngIf="signupForm.controls['email'].errors?.required">Field not must be empty</mat-error>
+    <mat-error *ngIf="signupForm.controls['email'].errors?.email && !signupForm.controls['email'].errors?.required"
+      >Email is invalid</mat-error>
+  </mat-form-field>
 
-<form (ngSubmit)="onRegistration(f)" #f="ngForm">
-  <div>
-    <label for="email">Mail</label>
+  <div class="mb-2">
+    <mat-form-field hintLabel="Should be at least 6 characters long">
+      <input
+              type="password"
+              formControlName="password"
+              matInput
+              placeholder="Password"
+              required
+      >
+      <mat-error>Has to be at least 6 characters long</mat-error>
+    </mat-form-field>
+  </div>
+
+  <div class="mb-4">
+    <mat-form-field>
+      <input
+              type="password"
+              formControlName="password2"
+              matInput
+              placeholder="Repeat password"
+              required
+      >
+      <mat-error *ngIf="signupForm.hasError('notMatching')">The passwords are not matching</mat-error>
+    </mat-form-field>
+  </div>
+  <div class="mb-4">
+    <mat-checkbox
+            formControlName="agree"
+            color="primary"
+            required
+    >Agree to terms and conditions</mat-checkbox>
+  </div>
+  <div class="text-center">
+    <button
+            mat-raised-button
+            type="submit"
+            color="primary"
+            [disabled]="signupForm.invalid"
+    >Signup</button>
+  </div>
+</form>
+<div class="text-center p-4">
+  <a class="link" routerLink="/login">I have an account</a>
+</div>
+
+<!--
+<form
+        class="max-width-320 content-center px-4"
+        (ngSubmit)="onRegistration(f)"
+        #f="ngForm">
+  <mat-form-field>
     <input
             type="email"
             name="email"
-            id="email"
-            #email="ngModel"
-            [ngModel]
+            ngModel
+            matInput
+            placeholder="Email"
+            email
+            required
+            #emailInput="ngModel"
     >
+    <mat-error *ngIf="emailInput.hasError('required')">Field not must be empty</mat-error>
+    <mat-error *ngIf="!emailInput.hasError('required')">Email is invalid</mat-error>
+  </mat-form-field>
+
+  <div class="mb-2">
+    <mat-form-field hintLabel="Should be at least 6 characters long">
+      <input
+              type="password"
+              name="password"
+              ngModel
+              matInput
+              placeholder="Password"
+              minlength="6"
+              required
+              #pwInput="ngModel"
+      >
+      <mat-hint align="end">{{pwInput.value?.length}} / 6</mat-hint>
+      <mat-error>Has to be at least 6 characters long</mat-error>
+    </mat-form-field>
   </div>
 
-  <div>
-    <label for="password">Password</label>
-    <input
-            type="password"
-            name="password"
-            id="password"
-            #password="ngModel"
-            [ngModel]
-    >
+  <div class="mb-4">
+    <mat-form-field>
+      <input
+              type="password"
+              name="password2"
+              ngModel
+              matInput
+              placeholder="Repeat password"
+              required
+              #pw2Input="ngModel"
+      >
+      <mat-error>The value must not be different.</mat-error>
+    </mat-form-field>
   </div>
-
-  <button type="submit">Registration</button>
+  <div class="mb-4">
+    <mat-checkbox
+            ngModel
+            name="agree"
+            color="primary"
+            required
+    >Agree to terms and conditions</mat-checkbox>
+  </div>
+  <div class="text-center">
+    <button
+            mat-raised-button
+            type="submit"
+            color="primary"
+            [disabled]="f.form.invalid"
+    >Signup</button>
+  </div>
 </form>
+-->

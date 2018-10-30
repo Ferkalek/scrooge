@@ -1,18 +1,47 @@
-<h2>Login page!</h2>
-<br>
-<hr>
-<br>
+<h1 class="text-center mt-5 px-4">Login page</h1>
+<form
+        class="max-width-320 content-center px-4"
+        (ngSubmit)="onLogin(f)"
+        #f="ngForm">
+  <mat-form-field>
+    <input
+            type="email"
+            name="email"
+            ngModel
+            matInput
+            placeholder="Email"
+            email
+            required
+            #emailInput="ngModel"
+    >
+    <mat-error *ngIf="emailInput.hasError('required')">Field not must be empty</mat-error>
+    <mat-error *ngIf="!emailInput.hasError('required')">Email is invalid</mat-error>
+  </mat-form-field>
 
-<form (ngSubmit)="onLogin(f)" #f="ngForm">
-  <div>
-    <label for="email">Mail</label>
-    <input type="email" name="email" id="email" ngModel>
+  <div class="mb-4">
+    <mat-form-field>
+      <input
+              type="password"
+              name="password"
+              ngModel
+              matInput
+              placeholder="Password"
+              minlength="6"
+              required
+              #pwInput="ngModel"
+      >
+      <mat-error>Has to be at least 6 characters long</mat-error>
+    </mat-form-field>
   </div>
-
-  <div>
-    <label for="password">Password</label>
-    <input type="password" name="password" id="password" ngModel>
+  <div class="text-center">
+    <button
+            mat-raised-button
+            type="submit"
+            color="primary"
+            [disabled]="f.form.invalid"
+    >Login</button>
   </div>
-
-  <button type="submit">Login</button>
 </form>
+<div class="text-center p-4">
+  <a class="link" routerLink="/signup">I have not an account yet</a>
+</div>

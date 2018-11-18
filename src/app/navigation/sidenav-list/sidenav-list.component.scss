@@ -1,0 +1,15 @@
+.nav-caption {
+  display: inline-block;
+  padding-left: 6px;
+}
+
+// TODO needs to change active state
+.mat-nav-list a.active {
+  background: #3f51b5;
+}
+
+.empty-link {
+  display: block;
+  height: 0 !important;
+  overflow: hidden;
+}

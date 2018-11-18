@@ -7,6 +7,8 @@ import { WelcomeComponent } from './welcome/welcome.component';
 import { SpendingComponent } from './spending/spending.component';
 import { LoginComponent } from './auth/login/login.component';
 import { RegistrationComponent } from './auth/registration/registration.component';
+import { HistoryComponent } from "./history/history.component";
+import { CategoriesComponent } from "./categories/categories.component";
 import { NotFoundComponent } from './not-found/not-found.component';
 
 const routes: Routes = [
@@ -14,6 +16,8 @@ const routes: Routes = [
     { path: 'welcome', component: WelcomeComponent },
     // { path: 'main', component: SpendingComponent },
     { path: 'main', component: SpendingComponent, canActivate: [AuthGuard] },
+    { path: 'history', component: HistoryComponent, canActivate: [AuthGuard] },
+    { path: 'categories', component: CategoriesComponent, canActivate: [AuthGuard] },
     { path: 'login', component: LoginComponent },
     { path: 'signup', component: RegistrationComponent },
     { path: '**', component: NotFoundComponent }

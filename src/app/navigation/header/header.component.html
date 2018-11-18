@@ -1,0 +1,25 @@
+<mat-toolbar color="primary">
+  <div class="d-block-xs d-none">
+    <button
+            mat-icon-button
+            (click)="onToggleSidenav()"
+    >
+      <mat-icon>menu</mat-icon>
+    </button>
+  </div>
+  <div><a routerLink="/main">SCROOGE</a></div>
+  <div class="menu d-none-xs">
+    <ul>
+      <ng-container *ngIf="!isAuth">
+        <li routerLinkActive="active"><a routerLink="/login">Login</a></li>
+        <li routerLinkActive="active"><a routerLink="/signup">Signup</a></li>
+      </ng-container>
+      <ng-container *ngIf="isAuth">
+        <li routerLinkActive="active"><a routerLink="/main">Home</a></li>
+        <li routerLinkActive="active"><a routerLink="/history">History</a></li>
+        <li routerLinkActive="active"><a routerLink="/categories">Categories</a></li>
+        <li *ngIf="isAuth" (click)="onLogOut()">Log out</li>
+      </ng-container>
+    </ul>
+  </div>
+</mat-toolbar>

@@ -7,33 +7,3 @@ mat-sidenav-content {
 mat-sidenav {
   width: 250px;
 }
-
-a {
-  color: #fff;
-  text-decoration: none;
-
-  &:hover,
-  &:active {
-    color: #ddd;
-  }
-}
-
-.menu {
-  display: flex;
-  justify-content: flex-end;
-  flex-grow: 1;
-
-  ul {
-    display: flex;
-  }
-
-  li {
-    margin: 10px;
-    list-style-type: none;
-  }
-}
-
-.nav-caption {
-  display: inline-block;
-  padding-left: 6px;
-}

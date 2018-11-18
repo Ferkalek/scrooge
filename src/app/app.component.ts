@@ -1,7 +1,7 @@
-import {Component, OnDestroy, OnInit} from '@angular/core';
+import {Component, OnDestroy, OnInit, ViewChild} from '@angular/core';
 import { Subscription } from 'rxjs/Subscription';
 import * as firebase from 'firebase';
-
+import { MatSidenav } from '@angular/material';
 import { AuthService } from './auth/auth.service';
 
 @Component({
@@ -10,6 +10,7 @@ import { AuthService } from './auth/auth.service';
   styleUrls: ['./app.component.scss']
 })
 export class AppComponent implements OnInit, OnDestroy {
+    @ViewChild('sidenav') sidenavRef: MatSidenav;
     isAuth = false;
     subscriptions: Subscription[] = [];
 
@@ -32,6 +33,7 @@ export class AppComponent implements OnInit, OnDestroy {
 
     logOut() {
         this.authService.logout();
+        this.sidenavRef.close()
     }
 
     ngOnDestroy() {

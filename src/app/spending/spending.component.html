@@ -35,28 +35,35 @@
   </div>
 </form>
 
-<table class="table table-sm">
-  <thead>
-  <th>Title</th>
-  <th>Cost</th>
-  <th>Date</th>
-  <th></th>
-  </thead>
-  <ng-container *ngFor="let c of spendingArr">
-    <tr>
-      <td>{{c.title}}</td>
-      <td>{{c.cost}}</td>
-      <td>{{c.date}}</td>
-      <td>
-        <button
-                class="btn btn-outline-info"
-                (click)="editSpending(c)"
-        >Edit</button>
-        <button
-                class="btn btn-outline-danger"
-                (click)="onDelete(c.$key)"
-        >Delete</button>
-      </td>
-    </tr>
-  </ng-container>
-</table>
+<mat-tab-group>
+  <mat-tab label="Spending">
+    <table class="table table-sm">
+      <thead>
+      <th>Title</th>
+      <th>Cost</th>
+      <th>Date</th>
+      <th></th>
+      </thead>
+      <ng-container *ngFor="let c of spendingArr">
+        <tr>
+          <td>{{c.title}}</td>
+          <td>{{c.cost}}</td>
+          <td>{{c.date}}</td>
+          <td>
+            <button
+                    class="btn btn-outline-info"
+                    (click)="editSpending(c)"
+            >Edit</button>
+            <button
+                    class="btn btn-outline-danger"
+                    (click)="onDelete(c.$key)"
+            >Delete</button>
+          </td>
+        </tr>
+      </ng-container>
+    </table>
+  </mat-tab>
+  <mat-tab label="Chart">
+    Chart content
+  </mat-tab>
+</mat-tab-group>

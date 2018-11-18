@@ -20,6 +20,10 @@ import { NotFoundComponent } from './not-found/not-found.component';
 import { SpendingComponent } from './spending/spending.component';
 import { WelcomeComponent } from './welcome/welcome.component';
 import { StorageService } from './shared/services/storage.service';
+import { HeaderComponent } from './navigation/header/header.component';
+import { SidenavListComponent } from './navigation/sidenav-list/sidenav-list.component';
+import { HistoryComponent } from './history/history.component';
+import { CategoriesComponent } from './categories/categories.component';
 
 @NgModule({
   declarations: [
@@ -28,7 +32,11 @@ import { StorageService } from './shared/services/storage.service';
     RegistrationComponent,
     NotFoundComponent,
     SpendingComponent,
-    WelcomeComponent
+    WelcomeComponent,
+    HeaderComponent,
+    SidenavListComponent,
+    HistoryComponent,
+    CategoriesComponent
   ],
   imports: [
     BrowserModule,

@@ -1,0 +1,53 @@
+<mat-nav-list >
+  <a class="empty-link" href="#" mat-list-item></a>
+  <ng-container *ngIf="!isAuth">
+    <a mat-list-item
+       routerLink="/login"
+       routerLinkActive="active"
+       (click)="onClose()"
+    >
+      <mat-icon>input</mat-icon>
+      <span class="nav-caption">Login</span>
+    </a>
+    <a mat-list-item
+       routerLink="/signup"
+       routerLinkActive="active"
+       (click)="onClose()"
+    >
+      <mat-icon>perm_identity</mat-icon>
+      <span class="nav-caption">Signup</span>
+    </a>
+  </ng-container>
+  <ng-container *ngIf="isAuth">
+    <a mat-list-item
+       routerLink="/main"
+       routerLinkActive="active"
+       (click)="onClose()"
+    >
+      <mat-icon>home</mat-icon>
+      <span class="nav-caption">Home</span>
+    </a>
+    <a mat-list-item
+       routerLink="/history"
+       routerLinkActive="active"
+       (click)="onClose()"
+    >
+      <mat-icon>history</mat-icon>
+      <span class="nav-caption">History</span>
+    </a>
+    <a mat-list-item
+       routerLink="/categories"
+       routerLinkActive="active"
+       (click)="onClose()"
+    >
+      <mat-icon>bookmarks</mat-icon>
+      <span class="nav-caption">Categories</span>
+    </a>
+    <mat-list-item>
+      <button mat-icon-button (click)="onLogOut()">
+        <mat-icon>no_meeting_room</mat-icon>
+        <span class="nav-caption">Log out</span>
+      </button>
+    </mat-list-item>
+  </ng-container>
+</mat-nav-list>

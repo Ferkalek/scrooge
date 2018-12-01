@@ -24,6 +24,7 @@ import { HeaderComponent } from './navigation/header/header.component';
 import { SidenavListComponent } from './navigation/sidenav-list/sidenav-list.component';
 import { HistoryComponent } from './history/history.component';
 import { CategoriesComponent } from './categories/categories.component';
+import { AddEditSpendingDialogComponent } from './spending/add-edit-spending-dialog/add-edit-spending-dialog.component';
 
 @NgModule({
   declarations: [
@@ -36,7 +37,8 @@ import { CategoriesComponent } from './categories/categories.component';
     HeaderComponent,
     SidenavListComponent,
     HistoryComponent,
-    CategoriesComponent
+    CategoriesComponent,
+    AddEditSpendingDialogComponent
   ],
   imports: [
     BrowserModule,
@@ -54,6 +56,7 @@ import { CategoriesComponent } from './categories/categories.component';
     AuthGuard,
     StorageService
   ],
+  entryComponents: [AddEditSpendingDialogComponent],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

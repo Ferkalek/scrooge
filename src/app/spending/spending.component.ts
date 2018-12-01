@@ -1,8 +1,9 @@
 import {Component, OnInit, OnDestroy} from '@angular/core';
-import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Subscription } from 'rxjs/Subscription';
+import { MatDialog } from '@angular/material';
 
 import { SpendingService } from './spending.service';
+import { AddEditSpendingDialogComponent } from './add-edit-spending-dialog/add-edit-spending-dialog.component';
 import { Spending } from './spending.model';
 
 @Component({
@@ -13,12 +14,12 @@ import { Spending } from './spending.model';
 export class SpendingComponent implements OnInit, OnDestroy {
     submitted: boolean;
     showSuccessMessage = false;
-    mForm: FormGroup;
     spendingArr = [];
     subscriptions: Subscription[] = [];
 
     constructor(
-      private spendingService: SpendingService
+      private spendingService: SpendingService,
+      private dialog: MatDialog
     ) {}
 
     ngOnInit() {
@@ -31,40 +32,42 @@ export class SpendingComponent implements OnInit, OnDestroy {
                     };
                 });
             }));
-        this.mForm = new FormGroup({
-            '$key': new FormControl(null),
-            'title': new FormControl(null, [Validators.required, Validators.minLength(3)]),
-            'cost': new FormControl(null, Validators.required)
-        });
     }
 
-    onSubmit() {
-        this.submitted = true;
-        if (this.mForm.valid) {
-            if (this.mForm.get('$key').value == null) {
-                // insert (add new)
-                this.spendingService.addSpending(this.mForm.value);
-                this.showSuccessMessage = true;
-                setTimeout(() => this.showSuccessMessage = false, 2000);
-            } else {
-                // update
-                this.spendingService.updateSpending(this.mForm.value);
-            }
-            this.submitted = false;
-            this.mForm.reset();
-        }
+    addSpending() {
+        const dialogRef = this.dialog.open(AddEditSpendingDialogComponent, { width: '250px' });
+
+        dialogRef.afterClosed()
+            .subscribe(result => {
+                if (result) {
+                    this.submitted = true;
+                    this.spendingService.addSpending(result);
+                    this.showSuccessMessage = true;
+                    setTimeout(() => this.showSuccessMessage = false, 2000);
+                    this.submitted = false;
+                }
+            });
     }
 
     editSpending(spending) {
-        console.log('spending', spending);
-        this.mForm.setValue({
-            $key: spending.$key,
-            title: spending.title,
-            cost: spending.cost
+        const dialogRef = this.dialog.open(AddEditSpendingDialogComponent, {
+            width: '250px',
+            data: { ...spending }
         });
+
+        dialogRef.afterClosed()
+            .subscribe(result => {
+                if (result) {
+                    this.submitted = true;
+                    this.spendingService.updateSpending(result);
+                    // this.showSuccessMessage = true;
+                    // setTimeout(() => this.showSuccessMessage = false, 2000);
+                    this.submitted = false;
+                }
+            });
     }
 
-    onDelete(key) {
+    deleteSpending(key) {
         if (confirm('Are you sure to delete spending?')) {
             this.spendingService.deleteSpending(key);
         }

@@ -25,6 +25,7 @@ export class SpendingService {
         this.spendingList.push({
             title: spending.title,
             cost: spending.cost,
+            category: spending.category ? spending.category : 'No category',
             date: Date.now()
         });
     }
@@ -32,7 +33,8 @@ export class SpendingService {
     updateSpending(spending) {
         this.spendingList.update(spending.$key, {
             title: spending.title,
-            cost: spending.cost
+            cost: spending.cost,
+            category: spending.category ? spending.category : 'No category'
         });
     }
 

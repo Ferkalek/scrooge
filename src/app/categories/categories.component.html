@@ -1,3 +1,13 @@
-<p>
-  categories works!
-</p>
+<mat-card class="category" *ngFor="let category of categoriesArr">
+  <p class="category__name">{{category.title}}</p>
+  <div class="category__actions">
+    <button mat-icon-button (click)="editCategory(category)">
+      <mat-icon aria-label="Edit category">edit</mat-icon>
+    </button>
+    <button mat-icon-button (click)="deleteCategory(category.$key)">
+      <mat-icon aria-label="Remove category">delete_outline</mat-icon>
+    </button>
+  </div>
+</mat-card>
+
+<app-add-button (handleClick)="addCategory()"></app-add-button>

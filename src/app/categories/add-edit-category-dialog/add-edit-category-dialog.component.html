@@ -1,0 +1,31 @@
+<h1 mat-dialog-title>Add new spending</h1>
+<form [formGroup]="categoryForm">
+  <div mat-dialog-content>
+    <mat-form-field>
+      <input
+              type="text"
+              matInput
+              placeholder="Title"
+              formControlName="title"
+              required
+      >
+      <mat-error
+              *ngIf="categoryForm.get('title').invalid && categoryForm.get('title').touched"
+      >Field is required (at least 3 charts)</mat-error>
+    </mat-form-field>
+  </div>
+  <div mat-dialog-actions>
+    <button
+            type="button"
+            mat-button
+            [mat-dialog-close]="false"
+    >Cancel</button>
+    <button
+            type="submit"
+            mat-button
+            [mat-dialog-close]="categoryForm.value"
+            cdkFocusInitial
+            [disabled]="categoryForm.invalid"
+    >Save</button>
+  </div>
+</form>

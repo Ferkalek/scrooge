@@ -4,33 +4,29 @@
       <thead>
       <th>Title</th>
       <th>Cost</th>
+      <th>Category</th>
       <th>Date</th>
       <th></th>
       </thead>
-      <ng-container *ngFor="let c of spendingArr">
+      <ng-container *ngFor="let item of spendingArr">
         <tr>
-          <td>{{c.title}}</td>
-          <td>{{c.cost}}</td>
-          <td>{{c.date}}</td>
+          <td>{{item.title}}</td>
+          <td>{{item.cost}}</td>
+          <td>{{item.category}}</td>
+          <td>{{item.date}}</td>
           <td>
-            <button
-                    class="btn btn-outline-info"
-                    (click)="editSpending(c)"
-            >Edit</button>
-            <button
-                    class="btn btn-outline-danger"
-                    (click)="deleteSpending(c.$key)"
-            >Delete</button>
+            <button mat-icon-button (click)="editSpending(item)">
+              <mat-icon aria-label="Edit category">edit</mat-icon>
+            </button>
+            <button mat-icon-button (click)="deleteSpending(item.$key)">
+              <mat-icon aria-label="Remove category">delete_outline</mat-icon>
+            </button>
           </td>
         </tr>
       </ng-container>
     </table>
 
-    <div style="padding: 50px 20px">
-      <button mat-mini-fab color="primary" (click)="addSpending()">
-        <mat-icon aria-label="Add new spending">add</mat-icon>
-      </button>
-    </div>
+    <app-add-button (handleClick)="addSpending()"></app-add-button>
   </mat-tab>
   <mat-tab label="Chart">
     Chart content

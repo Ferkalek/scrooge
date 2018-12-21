@@ -1,10 +1,9 @@
-import {Component, OnInit, OnDestroy} from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Subscription } from 'rxjs/Subscription';
 import { MatDialog } from '@angular/material';
 
 import { SpendingService } from './spending.service';
 import { AddEditSpendingDialogComponent } from './add-edit-spending-dialog/add-edit-spending-dialog.component';
-import { Spending } from './spending.model';
 
 @Component({
   selector: 'app-spending',

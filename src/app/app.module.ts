@@ -7,6 +7,7 @@ import { AngularFireDatabaseModule } from 'angularfire2/database';
 import { AuthService } from './auth/auth.service';
 import { AuthGuard } from './auth/auth.guard';
 import { SpendingService } from './spending/spending.service';
+import { CategoriesService } from './categories/categories.service';
 import { MaterialModule } from "./shared/material.module";
 
 import { environment } from '../environments/environment';
@@ -25,6 +26,8 @@ import { SidenavListComponent } from './navigation/sidenav-list/sidenav-list.com
 import { HistoryComponent } from './history/history.component';
 import { CategoriesComponent } from './categories/categories.component';
 import { AddEditSpendingDialogComponent } from './spending/add-edit-spending-dialog/add-edit-spending-dialog.component';
+import { AddButtonComponent } from './shared/components/add-button/add-button.component';
+import { AddEditCategoryDialogComponent } from './categories/add-edit-category-dialog/add-edit-category-dialog.component';
 
 @NgModule({
   declarations: [
@@ -38,7 +41,9 @@ import { AddEditSpendingDialogComponent } from './spending/add-edit-spending-dia
     SidenavListComponent,
     HistoryComponent,
     CategoriesComponent,
-    AddEditSpendingDialogComponent
+    AddEditSpendingDialogComponent,
+    AddButtonComponent,
+    AddEditCategoryDialogComponent
   ],
   imports: [
     BrowserModule,
@@ -52,11 +57,15 @@ import { AddEditSpendingDialogComponent } from './spending/add-edit-spending-dia
   ],
   providers: [
     SpendingService,
+    CategoriesService,
     AuthService,
     AuthGuard,
     StorageService
   ],
-  entryComponents: [AddEditSpendingDialogComponent],
+  entryComponents: [
+      AddEditSpendingDialogComponent,
+      AddEditCategoryDialogComponent
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

@@ -26,17 +26,12 @@
       >Field is required (number only)</mat-error>
     </mat-form-field>
 
-
     <mat-form-field *ngIf="categoriesList.length">
       <mat-select placeholder="Choose category" formControlName="category">
         <mat-option *ngFor="let cat of categoriesList"
                     [value]="cat.$key">{{cat.title}}</mat-option>
       </mat-select>
     </mat-form-field>
-
-    <p>You selected: {{selected}}</p>
-
-
 
   </div>
   <div mat-dialog-actions>

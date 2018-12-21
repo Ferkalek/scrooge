@@ -16,7 +16,7 @@ export class SpendingService {
     ) {}
 
     getSpending() {
-        this.urlBD = this.authService.getUser().userId;
+        this.urlBD = this.authService.getUser().userId + '/spending';
         this.spendingList = this.firebase.list(this.urlBD);
         return this.spendingList.snapshotChanges();
     }

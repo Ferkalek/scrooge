@@ -4,6 +4,7 @@ import { MatDialog } from '@angular/material';
 
 import { SpendingService } from './spending.service';
 import { AddEditSpendingDialogComponent } from './add-edit-spending-dialog/add-edit-spending-dialog.component';
+import { CategoriesService } from '../categories/categories.service';
 
 @Component({
   selector: 'app-spending',
@@ -14,22 +15,37 @@ export class SpendingComponent implements OnInit, OnDestroy {
     submitted: boolean;
     showSuccessMessage = false;
     spendingArr = [];
+    categoriesArr = [];
     subscriptions: Subscription[] = [];
 
     constructor(
       private spendingService: SpendingService,
+      private categoriesService: CategoriesService,
       private dialog: MatDialog
     ) {}
 
     ngOnInit() {
-        this.subscriptions.push(this.spendingService.getSpending()
+        this.subscriptions.push(this.categoriesService.getCategories()
             .subscribe(list => {
-                this.spendingArr = list.map(item => {
+                this.categoriesArr = list.map(category => {
                     return {
-                        $key: item.key,
-                        ...item.payload.val()
+                        $key: category.key,
+                        ...category.payload.val()
                     };
                 });
+
+                this.spendingService.getSpending()
+                    .subscribe(list => {
+                        this.spendingArr = list.map(item => {
+                            return {
+                                $key: item.key,
+                                ...item.payload.val(),
+                                category: this.categoriesArr.find(c => c.$key === item.payload.val().category) ?
+                                    this.categoriesArr.find(c => c.$key === item.payload.val().category).title : 'No category'
+                            };
+                        });
+                        console.log('spending', this.spendingArr);
+                    })
             }));
     }
 

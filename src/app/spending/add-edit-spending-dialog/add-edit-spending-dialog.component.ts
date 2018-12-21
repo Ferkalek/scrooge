@@ -12,13 +12,11 @@ import { CategoriesService } from '../../categories/categories.service';
 export class AddEditSpendingDialogComponent implements OnInit, OnDestroy {
     subscriptions: Subscription[] = [];
     categoriesList = [];
-    selected = 'option2';
-
     spendingForm = this.fb.group({
         $key: [null],
         title: [null, [Validators.required, Validators.minLength(3)]],
         cost: [null, Validators.required],
-        category: [null, Validators.required]
+        category: [null]
     });
 
   constructor(
@@ -37,17 +35,21 @@ export class AddEditSpendingDialogComponent implements OnInit, OnDestroy {
                   };
               });
 
-              console.log('categoriesList', this.categoriesList);
+              if (this.passedData) {
+                  console.log('passedData', this.passedData);
+                  console.log('categoriesList', this.categoriesList);
+                  if (this.categoriesList.find(c => c.title === this.passedData.category)) {
+                      console.log('>>>', this.categoriesList.find(c => c.title === this.passedData.category).$key);
+                  }
+                  this.spendingForm.setValue({
+                      $key: this.passedData.$key,
+                      title: this.passedData.title,
+                      cost: this.passedData.cost,
+                      category: this.categoriesList.find(c => c.title === this.passedData.category) ?
+                          this.categoriesList.find(c => c.title === this.passedData.category).$key : null
+                  });
+              }
           }));
-
-    if (this.passedData) {
-        this.spendingForm.setValue({
-            $key: this.passedData.$key,
-            title: this.passedData.title,
-            cost: this.passedData.cost,
-            category: this.passedData.category
-        });
-    }
   }
 
     ngOnDestroy() {

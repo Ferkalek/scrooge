@@ -4,11 +4,12 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { AngularFireModule } from 'angularfire2';
 import { AngularFireDatabaseModule } from 'angularfire2/database';
+import { NgxChartsModule } from '@swimlane/ngx-charts';
 import { AuthService } from './auth/auth.service';
 import { AuthGuard } from './auth/auth.guard';
 import { SpendingService } from './spending/spending.service';
 import { CategoriesService } from './categories/categories.service';
-import { MaterialModule } from "./shared/material.module";
+import { MaterialModule } from './shared/material.module';
 
 import { environment } from '../environments/environment';
 
@@ -53,7 +54,8 @@ import { AddEditCategoryDialogComponent } from './categories/add-edit-category-d
     AngularFireModule.initializeApp(environment.firebase),
     AngularFireDatabaseModule,
     AppRoutingModule,
-    MaterialModule
+    MaterialModule,
+    NgxChartsModule
   ],
   providers: [
     SpendingService,

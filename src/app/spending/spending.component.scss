@@ -1,0 +1,30 @@
+:host {
+  display: block;
+  padding: 50px 24px;
+}
+
+.flex-row, .sub-flex-row {
+  display: flex;
+  justify-content: space-between;
+
+  & > *:not(.sub-flex-row) {
+    display: inline-block;
+    padding-left: 6px;
+    padding-right: 6px;
+  }
+}
+
+.sub-flex-row {
+  @media screen and (max-width: 575.98px){
+    flex-direction: column;
+  }
+}
+
+.item {
+  max-width: 480px;
+  margin: 0 auto 20px;
+}
+
+.title {
+  font-size: 21px;
+}

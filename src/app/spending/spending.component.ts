@@ -1,6 +1,6 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Component, OnInit, OnDestroy, Input } from '@angular/core';
 import { Subscription } from 'rxjs/Subscription';
-import { MatDialog } from '@angular/material';
+import { MatDialog, MatTableDataSource } from '@angular/material';
 
 import { SpendingService } from './spending.service';
 import { AddEditSpendingDialogComponent } from './add-edit-spending-dialog/add-edit-spending-dialog.component';
@@ -17,6 +17,27 @@ export class SpendingComponent implements OnInit, OnDestroy {
     spendingArr = [];
     categoriesArr = [];
     subscriptions: Subscription[] = [];
+    totalAmount = 0;
+
+    displayedColumns = ['title', 'cost', 'category', 'date'];
+    dataSource = new MatTableDataSource<any>();
+
+    data = [];
+
+    view = [545, 375];
+
+    // options
+    showLegend = false;
+    gradient = false;
+
+    colorScheme = {
+        domain: ['#46b6ac', '#08328c', '#db4b4b', '#804c9e']
+    };
+
+    // pie
+    showLabels = true;
+    explodeSlices = false;
+    doughnut = true;
 
     constructor(
       private spendingService: SpendingService,
@@ -44,9 +65,27 @@ export class SpendingComponent implements OnInit, OnDestroy {
                                     this.categoriesArr.find(c => c.$key === item.payload.val().category).title : 'No category'
                             };
                         });
-                        console.log('spending', this.spendingArr);
+
+                        this.totalAmount = this.spendingArr.reduce((a, b) => {
+                            return a + b.cost;
+                        }, 0);
+
+                        this.spendingArr.forEach(i => {
+                            if (!this.data.find(e => e.name === i.category)) {
+                                this.data.push({
+                                    name: i.category,
+                                    value: this.spendingArr.reduce((a, b) => i.category === b.category ? a + b.cost : a, 0)
+                                });
+                            }
+                        });
+
+                        this.dataSource.data = this.spendingArr.slice();
                     })
             }));
+    }
+
+    onSelect(event) {
+        console.log(event);
     }
 
     addSpending() {

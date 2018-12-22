@@ -1,34 +1,71 @@
 <mat-tab-group>
   <mat-tab label="Spending">
-    <table class="table table-sm">
-      <thead>
-      <th>Title</th>
-      <th>Cost</th>
-      <th>Category</th>
-      <th>Date</th>
-      <th></th>
-      </thead>
-      <ng-container *ngFor="let item of spendingArr">
-        <tr>
-          <td>{{item.title}}</td>
-          <td>{{item.cost}}</td>
-          <td>{{item.category}}</td>
-          <td>{{item.date}}</td>
-          <td>
-            <button mat-icon-button (click)="editSpending(item)">
-              <mat-icon aria-label="Edit category">edit</mat-icon>
-            </button>
-            <button mat-icon-button (click)="deleteSpending(item.$key)">
-              <mat-icon aria-label="Remove category">delete_outline</mat-icon>
-            </button>
-          </td>
-        </tr>
+    <!--<mat-table [dataSource]="dataSource">
+
+      <ng-container matColumnDef="title">
+        <mat-header-cell *matHeaderCellDef>Title</mat-header-cell>
+        <mat-cell *matCellDef="let element">{{element.title}}</mat-cell>
       </ng-container>
-    </table>
+
+      <ng-container matColumnDef="cost">
+        <mat-header-cell *matHeaderCellDef>Cost</mat-header-cell>
+        <mat-cell *matCellDef="let element">{{element.cost}}</mat-cell>
+      </ng-container>
+
+      <ng-container matColumnDef="category">
+        <mat-header-cell *matHeaderCellDef>Category</mat-header-cell>
+        <mat-cell *matCellDef="let element">{{element.category}}</mat-cell>
+      </ng-container>
+
+      <ng-container matColumnDef="date">
+        <mat-header-cell *matHeaderCellDef>Date</mat-header-cell>
+        <mat-cell *matCellDef="let element">{{element.date | date}}</mat-cell>
+      </ng-container>
+
+      <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+      <mat-row *matRowDef="let row; columns: displayedColumns"></mat-row>
+    </mat-table>-->
+
+    <h1 *ngIf="totalAmount > 0">Total: {{totalAmount | number:'1.0-2'}}</h1>
+
+
+    <mat-card class="item" *ngFor="let item of spendingArr">
+      <div class="flex-row">
+        <span class="title">{{item.title}}</span>
+        <mat-card-title>{{item.cost | number: '1.2-2'}}</mat-card-title>
+      </div>
+      <div class="flex-row">
+        <mat-card-subtitle class="sub-flex-row">
+          <span>{{item.category}}</span>
+          <span>{{item.date | date}}</span>
+        </mat-card-subtitle>
+        <div class="actions">
+          <button mat-icon-button (click)="editSpending(item)">
+            <mat-icon aria-label="Edit spending">edit</mat-icon>
+          </button>
+          <button mat-icon-button (click)="deleteSpending(item.$key)">
+            <mat-icon aria-label="Remove spending">delete_outline</mat-icon>
+          </button>
+        </div>
+      </div>
+    </mat-card>
 
     <app-add-button (handleClick)="addSpending()"></app-add-button>
   </mat-tab>
   <mat-tab label="Chart">
     Chart content
+
+    <ngx-charts-pie-chart
+            *ngIf="data.length"
+            [view]="view"
+            [scheme]="colorScheme"
+            [results]="data"
+            [legend]="showLegend"
+            [explodeSlices]="explodeSlices"
+            [labels]="showLabels"
+            [doughnut]="doughnut"
+            [gradient]="gradient"
+            (select)="onSelect($event)">
+    </ngx-charts-pie-chart>
   </mat-tab>
 </mat-tab-group>

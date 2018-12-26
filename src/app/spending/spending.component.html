@@ -1,3 +1,33 @@
+<h2>Filtered by category:</h2>
+<mat-form-field>
+  <mat-select placeholder="Choose category" multiple
+              (selectionChange)="filteredByCategories()" [(ngModel)]="selectedCategories">
+    <mat-option *ngFor="let cat of categoriesArr"
+                [value]="cat.title">{{cat.title}}</mat-option>
+  </mat-select>
+</mat-form-field>
+
+<br>
+<h3>From</h3>
+<mat-form-field>
+  <input matInput [matDatepicker]="pickerFrom" [(ngModel)]="dateFrom"
+         [min]="minDateFrom" [max]="maxDateFrom"
+         placeholder="Choose a date" (dateChange)="selectDateFrom($event)">
+  <mat-datepicker-toggle matSuffix [for]="pickerFrom"></mat-datepicker-toggle>
+  <mat-datepicker #pickerFrom></mat-datepicker>
+</mat-form-field>
+
+<h3>To</h3>
+<mat-form-field>
+  <input matInput [matDatepicker]="pickerTo" [(ngModel)]="dateTo"
+         [min]="minDateTo" [max]="maxDateTo"
+         placeholder="Choose a date" (dateChange)="selectDateTo($event)">
+  <mat-datepicker-toggle matSuffix [for]="pickerTo"></mat-datepicker-toggle>
+  <mat-datepicker #pickerTo></mat-datepicker>
+</mat-form-field>
+
+<button mat-button (click)="clearFilters()">Clear filters</button>
+
 <mat-tab-group>
   <mat-tab label="Spending">
     <!--<mat-table [dataSource]="dataSource">
@@ -29,7 +59,7 @@
     <h1 *ngIf="totalAmount > 0">Total: {{totalAmount | number:'1.0-2'}}</h1>
 
 
-    <mat-card class="item" *ngFor="let item of spendingArr">
+    <mat-card class="item" *ngFor="let item of filteredSpendingArr">
       <div class="flex-row">
         <span class="title">{{item.title}}</span>
         <mat-card-title>{{item.cost | number: '1.2-2'}}</mat-card-title>

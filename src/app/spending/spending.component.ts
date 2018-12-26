@@ -1,6 +1,6 @@
 import { Component, OnInit, OnDestroy, Input } from '@angular/core';
 import { Subscription } from 'rxjs/Subscription';
-import { MatDialog, MatTableDataSource } from '@angular/material';
+import { MatDialog, MatTableDataSource, MatDatepickerInputEvent } from '@angular/material';
 
 import { SpendingService } from './spending.service';
 import { AddEditSpendingDialogComponent } from './add-edit-spending-dialog/add-edit-spending-dialog.component';
@@ -15,12 +15,22 @@ export class SpendingComponent implements OnInit, OnDestroy {
     submitted: boolean;
     showSuccessMessage = false;
     spendingArr = [];
+    filteredSpendingArr = [];
     categoriesArr = [];
     subscriptions: Subscription[] = [];
     totalAmount = 0;
+    selectedCategories: string[] = [];
+
+    dateFrom = null;
+    dateTo = null;
+    minDateFrom = new Date();
+    minDateTo = new Date();
+    maxDateFrom = new Date();
+    maxDateTo = new Date();
+    // maxDate = new Date(2018, 11, 28);
 
     displayedColumns = ['title', 'cost', 'category', 'date'];
-    dataSource = new MatTableDataSource<any>();
+    // dataSource = new MatTableDataSource<any>();
 
     data = [];
 
@@ -46,6 +56,10 @@ export class SpendingComponent implements OnInit, OnDestroy {
     ) {}
 
     ngOnInit() {
+        this.dateFrom = new Date(this.maxDateTo.getFullYear(), this.maxDateTo.getMonth(), 1);
+        this.maxDateTo.setFullYear(this.maxDateTo.getFullYear());
+        this.maxDateFrom = this.maxDateTo;
+
         this.subscriptions.push(this.categoriesService.getCategories()
             .subscribe(list => {
                 this.categoriesArr = list.map(category => {
@@ -54,6 +68,8 @@ export class SpendingComponent implements OnInit, OnDestroy {
                         ...category.payload.val()
                     };
                 });
+
+                console.log('this.categoriesArr', this.categoriesArr);
 
                 this.spendingService.getSpending()
                     .subscribe(list => {
@@ -66,26 +82,76 @@ export class SpendingComponent implements OnInit, OnDestroy {
                             };
                         });
 
-                        this.totalAmount = this.spendingArr.reduce((a, b) => {
-                            return a + b.cost;
-                        }, 0);
+                        const dateArr = this.spendingArr.map(i => i.date);
+                        this.minDateFrom = new Date(Math.min(...dateArr));
+                        this.minDateTo = this.minDateFrom;
 
-                        this.spendingArr.forEach(i => {
-                            if (!this.data.find(e => e.name === i.category)) {
-                                this.data.push({
-                                    name: i.category,
-                                    value: this.spendingArr.reduce((a, b) => i.category === b.category ? a + b.cost : a, 0)
-                                });
-                            }
-                        });
+                        this.onFilteredSpendingArr();
 
-                        this.dataSource.data = this.spendingArr.slice();
+                        // this.dataSource.data = this.filteredSpendingArr.slice();
                     })
             }));
     }
 
+    onFilteredSpendingArr() {
+        if (this.selectedCategories.length) {
+            this.filteredSpendingArr = this.spendingArr.filter(s => this.selectedCategories.indexOf(s.category) !== -1);
+        } else {
+            this.filteredSpendingArr = [...this.spendingArr];
+        }
+
+        if ((this.dateFrom || this.minDateFrom) && (this.dateTo || this.maxDateTo)) {
+            const dateFrom = (this.dateFrom || this.minDateFrom).valueOf();
+            const dateTo = (this.dateTo || this.maxDateTo).valueOf();
+
+            this.filteredSpendingArr = this.filteredSpendingArr.filter(s => s.date >= dateFrom && s.date <= dateTo);
+        }
+
+        this.getTotalAmount();
+        this.getDataForChart();
+    }
+
+    getTotalAmount() {
+        this.totalAmount = this.filteredSpendingArr.reduce((a, b) => {
+            return a + b.cost;
+        }, 0);
+    }
+
+    getDataForChart() {
+        this.data = [];
+        this.filteredSpendingArr.forEach(i => {
+            if (!this.data.find(e => e.name === i.category)) {
+                this.data.push({
+                    name: i.category,
+                    value: this.filteredSpendingArr.reduce((a, b) => i.category === b.category ? a + b.cost : a, 0)
+                });
+            }
+        });
+    }
+
+    selectDateFrom(e: MatDatepickerInputEvent<Date>) {
+        this.minDateTo = e.value;
+        this.onFilteredSpendingArr();
+    }
+
+    selectDateTo(e: MatDatepickerInputEvent<Date>) {
+        this.maxDateFrom = e.value;
+        this.onFilteredSpendingArr();
+    }
+
+    clearFilters() {
+        this.selectedCategories = [];
+        this.dateFrom = new Date(this.maxDateTo.getFullYear(), this.maxDateTo.getMonth(), 1);
+        this.dateTo = null;
+        this.onFilteredSpendingArr();
+    }
+
     onSelect(event) {
         console.log(event);
+    }
+
+    filteredByCategories() {
+        this.onFilteredSpendingArr();
     }
 
     addSpending() {
@@ -129,5 +195,6 @@ export class SpendingComponent implements OnInit, OnDestroy {
 
     ngOnDestroy() {
         this.subscriptions.forEach(sub => sub.unsubscribe());
+        this.data = [];
     }
 }

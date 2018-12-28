@@ -24,7 +24,6 @@ import { WelcomeComponent } from './welcome/welcome.component';
 import { StorageService } from './shared/services/storage.service';
 import { HeaderComponent } from './navigation/header/header.component';
 import { SidenavListComponent } from './navigation/sidenav-list/sidenav-list.component';
-import { HistoryComponent } from './history/history.component';
 import { CategoriesComponent } from './categories/categories.component';
 import { AddEditSpendingDialogComponent } from './spending/add-edit-spending-dialog/add-edit-spending-dialog.component';
 import { AddButtonComponent } from './shared/components/add-button/add-button.component';
@@ -40,7 +39,6 @@ import { AddEditCategoryDialogComponent } from './categories/add-edit-category-d
     WelcomeComponent,
     HeaderComponent,
     SidenavListComponent,
-    HistoryComponent,
     CategoriesComponent,
     AddEditSpendingDialogComponent,
     AddButtonComponent,

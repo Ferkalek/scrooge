@@ -16,7 +16,6 @@
       </ng-container>
       <ng-container *ngIf="isAuth">
         <li routerLinkActive="active"><a routerLink="/main">Home</a></li>
-        <li routerLinkActive="active"><a routerLink="/history">History</a></li>
         <li routerLinkActive="active"><a routerLink="/categories">Categories</a></li>
         <li *ngIf="isAuth" (click)="onLogOut()">Log out</li>
       </ng-container>

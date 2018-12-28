@@ -1,6 +1,14 @@
-import { Component, OnInit, OnDestroy, Input } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
+import {
+    trigger,
+    state,
+    style,
+    animate,
+    transition,
+    group
+} from '@angular/animations';
 import { Subscription } from 'rxjs/Subscription';
-import { MatDialog, MatTableDataSource, MatDatepickerInputEvent } from '@angular/material';
+import { MatDialog, MatDatepickerInputEvent } from '@angular/material';
 
 import { SpendingService } from './spending.service';
 import { AddEditSpendingDialogComponent } from './add-edit-spending-dialog/add-edit-spending-dialog.component';
@@ -9,11 +17,50 @@ import { CategoriesService } from '../categories/categories.service';
 @Component({
   selector: 'app-spending',
   templateUrl: './spending.component.html',
-  styleUrls: ['./spending.component.scss']
+  styleUrls: ['./spending.component.scss'],
+  animations: [
+      trigger('fadeInOut', [
+          // state('void', style({
+          //     opacity: 0
+          // })),
+          // transition('void <=> *', animate(1000)),
+          // transition('void => *', animate(1000)),
+          // transition('* => void', animate(500)),
+
+
+          state('open', style({
+              height: '*',
+              opacity: 1
+          })),
+          state('close', style({
+              height: 0,
+              opacity: 0
+          })),
+          transition('close=>open', animate('300ms')),
+          transition('open=>close', animate('200ms ease-in-out'))
+
+          // state('in', style({height: '*', opacity: 0})),
+          // transition(':leave', [
+          //     style({height: '*', opacity: 1}),
+          //     group([
+          //         animate(300, style({height: 0})),
+          //         animate('200ms ease-in-out', style({'opacity': '0'}))
+          //     ])
+          // ]),
+          // transition(':enter', [
+          //     style({height: '0', opacity: 0}),
+          //     group([
+          //         animate(300, style({height: '*'})),
+          //         animate('400ms ease-in-out', style({'opacity': '1'}))
+          //     ])
+          // ])
+      ])
+  ]
 })
 export class SpendingComponent implements OnInit, OnDestroy {
     submitted: boolean;
     showSuccessMessage = false;
+    filterListIsOpen = false;
     spendingArr = [];
     filteredSpendingArr = [];
     categoriesArr = [];
@@ -27,19 +74,12 @@ export class SpendingComponent implements OnInit, OnDestroy {
     minDateTo = new Date();
     maxDateFrom = new Date();
     maxDateTo = new Date();
-    // maxDate = new Date(2018, 11, 28);
-
-    displayedColumns = ['title', 'cost', 'category', 'date'];
-    // dataSource = new MatTableDataSource<any>();
 
     data = [];
-
     view = [545, 375];
-
     // options
     showLegend = false;
     gradient = false;
-
     colorScheme = {
         domain: ['#46b6ac', '#08328c', '#db4b4b', '#804c9e']
     };
@@ -69,8 +109,6 @@ export class SpendingComponent implements OnInit, OnDestroy {
                     };
                 });
 
-                console.log('this.categoriesArr', this.categoriesArr);
-
                 this.spendingService.getSpending()
                     .subscribe(list => {
                         this.spendingArr = list.map(item => {
@@ -87,8 +125,6 @@ export class SpendingComponent implements OnInit, OnDestroy {
                         this.minDateTo = this.minDateFrom;
 
                         this.onFilteredSpendingArr();
-
-                        // this.dataSource.data = this.filteredSpendingArr.slice();
                     })
             }));
     }
@@ -191,6 +227,10 @@ export class SpendingComponent implements OnInit, OnDestroy {
         if (confirm('Are you sure to delete spending?')) {
             this.spendingService.deleteSpending(key);
         }
+    }
+
+    toggleFilters() {
+        this.filterListIsOpen = !this.filterListIsOpen;
     }
 
     ngOnDestroy() {

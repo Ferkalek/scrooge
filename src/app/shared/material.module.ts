@@ -13,7 +13,6 @@ import {
     MatDialogModule,
     MatCardModule,
     MatSelectModule,
-    MatTableModule,
     MatDatepickerModule,
     MatNativeDateModule
 } from '@angular/material';
@@ -32,7 +31,6 @@ import {
         MatDialogModule,
         MatCardModule,
         MatSelectModule,
-        MatTableModule,
         MatDatepickerModule,
         MatNativeDateModule
     ],
@@ -49,7 +47,6 @@ import {
         MatDialogModule,
         MatCardModule,
         MatSelectModule,
-        MatTableModule,
         MatDatepickerModule,
         MatNativeDateModule
     ]

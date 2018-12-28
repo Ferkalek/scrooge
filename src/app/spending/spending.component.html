@@ -1,63 +1,71 @@
-<h2>Filtered by category:</h2>
-<mat-form-field>
-  <mat-select placeholder="Choose category" multiple
-              (selectionChange)="filteredByCategories()" [(ngModel)]="selectedCategories">
-    <mat-option *ngFor="let cat of categoriesArr"
-                [value]="cat.title">{{cat.title}}</mat-option>
-  </mat-select>
-</mat-form-field>
+<div class="filter-bl">
+  <h2>Filter by</h2>
 
-<br>
-<h3>From</h3>
-<mat-form-field>
-  <input matInput [matDatepicker]="pickerFrom" [(ngModel)]="dateFrom"
-         [min]="minDateFrom" [max]="maxDateFrom"
-         placeholder="Choose a date" (dateChange)="selectDateFrom($event)">
-  <mat-datepicker-toggle matSuffix [for]="pickerFrom"></mat-datepicker-toggle>
-  <mat-datepicker #pickerFrom></mat-datepicker>
-</mat-form-field>
+  <div>
+    <button mat-raised-button (click)="toggleFilters()">
+      <ng-container
+              *ngIf="filterListIsOpen; then closeFilters else openFilters">
+      </ng-container>
+    </button>
+  </div>
+</div>
 
-<h3>To</h3>
-<mat-form-field>
-  <input matInput [matDatepicker]="pickerTo" [(ngModel)]="dateTo"
-         [min]="minDateTo" [max]="maxDateTo"
-         placeholder="Choose a date" (dateChange)="selectDateTo($event)">
-  <mat-datepicker-toggle matSuffix [for]="pickerTo"></mat-datepicker-toggle>
-  <mat-datepicker #pickerTo></mat-datepicker>
-</mat-form-field>
+<div class="filters-wrap" [@fadeInOut]="filterListIsOpen ? 'open' : 'close'">
+  <div class="f-row">
+    <div class="col">
+      <h3>category</h3>
+      <mat-form-field>
+        <mat-select placeholder="Choose category" multiple
+                    (selectionChange)="filteredByCategories()" [(ngModel)]="selectedCategories">
+          <mat-option *ngFor="let cat of categoriesArr"
+                      [value]="cat.title">{{cat.title}}</mat-option>
+        </mat-select>
+      </mat-form-field>
+    </div>
 
-<button mat-button (click)="clearFilters()">Clear filters</button>
+    <div>
+      <h3 class="pl-10">date range</h3>
+      <div class="flex-row">
+        <div class="date">
+          <mat-form-field>
+            <input matInput [matDatepicker]="pickerFrom" [(ngModel)]="dateFrom"
+                   [min]="minDateFrom" [max]="maxDateFrom"
+                   placeholder="Choose date from" (dateChange)="selectDateFrom($event)">
+            <mat-datepicker-toggle matSuffix [for]="pickerFrom"></mat-datepicker-toggle>
+            <mat-datepicker #pickerFrom></mat-datepicker>
+          </mat-form-field>
+        </div>
+
+        <div class="date">
+          <mat-form-field>
+            <input matInput [matDatepicker]="pickerTo" [(ngModel)]="dateTo"
+                   [min]="minDateTo" [max]="maxDateTo"
+                   placeholder="Choose date to" (dateChange)="selectDateTo($event)">
+            <mat-datepicker-toggle matSuffix [for]="pickerTo"></mat-datepicker-toggle>
+            <mat-datepicker #pickerTo></mat-datepicker>
+          </mat-form-field>
+        </div>
+      </div>
+    </div>
+
+    <div class="col">
+      <div class="fullscreen">
+        <h3>&nbsp;</h3>
+        <button mat-icon-button (click)="clearFilters()">
+          <mat-icon aria-label="Clear filters">clear</mat-icon>
+        </button>
+      </div>
+      <div class="mobile">
+        <button mat-raised-button color="primary" (click)="clearFilters()"
+        >Clear filters <mat-icon>clear</mat-icon></button>
+      </div>
+    </div>
+  </div>
+</div>
 
 <mat-tab-group>
   <mat-tab label="Spending">
-    <!--<mat-table [dataSource]="dataSource">
-
-      <ng-container matColumnDef="title">
-        <mat-header-cell *matHeaderCellDef>Title</mat-header-cell>
-        <mat-cell *matCellDef="let element">{{element.title}}</mat-cell>
-      </ng-container>
-
-      <ng-container matColumnDef="cost">
-        <mat-header-cell *matHeaderCellDef>Cost</mat-header-cell>
-        <mat-cell *matCellDef="let element">{{element.cost}}</mat-cell>
-      </ng-container>
-
-      <ng-container matColumnDef="category">
-        <mat-header-cell *matHeaderCellDef>Category</mat-header-cell>
-        <mat-cell *matCellDef="let element">{{element.category}}</mat-cell>
-      </ng-container>
-
-      <ng-container matColumnDef="date">
-        <mat-header-cell *matHeaderCellDef>Date</mat-header-cell>
-        <mat-cell *matCellDef="let element">{{element.date | date}}</mat-cell>
-      </ng-container>
-
-      <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
-      <mat-row *matRowDef="let row; columns: displayedColumns"></mat-row>
-    </mat-table>-->
-
     <h1 *ngIf="totalAmount > 0">Total: {{totalAmount | number:'1.0-2'}}</h1>
-
 
     <mat-card class="item" *ngFor="let item of filteredSpendingArr">
       <div class="flex-row">
@@ -99,3 +107,11 @@
     </ngx-charts-pie-chart>
   </mat-tab>
 </mat-tab-group>
+
+
+<ng-template #openFilters>
+  Open filters <mat-icon aria-label="Open filters">expand_more</mat-icon>
+</ng-template>
+<ng-template #closeFilters>
+  Close filters <mat-icon aria-label="Close filters">expand_less</mat-icon>
+</ng-template>

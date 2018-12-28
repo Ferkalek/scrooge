@@ -28,6 +28,7 @@ import { CategoriesComponent } from './categories/categories.component';
 import { AddEditSpendingDialogComponent } from './spending/add-edit-spending-dialog/add-edit-spending-dialog.component';
 import { AddButtonComponent } from './shared/components/add-button/add-button.component';
 import { AddEditCategoryDialogComponent } from './categories/add-edit-category-dialog/add-edit-category-dialog.component';
+import { LoaderComponent } from './shared/components/loader/loader.component';
 
 @NgModule({
   declarations: [
@@ -42,7 +43,8 @@ import { AddEditCategoryDialogComponent } from './categories/add-edit-category-d
     CategoriesComponent,
     AddEditSpendingDialogComponent,
     AddButtonComponent,
-    AddEditCategoryDialogComponent
+    AddEditCategoryDialogComponent,
+    LoaderComponent
   ],
   imports: [
     BrowserModule,

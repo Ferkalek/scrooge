@@ -1,113 +1,116 @@
-<div class="filter-bl">
-  <h2>Filter by</h2>
+<app-loader *ngIf="loadingData"></app-loader>
 
-  <div>
-    <button mat-raised-button (click)="toggleFilters()">
-      <ng-container
-              *ngIf="filterListIsOpen; then closeFilters else openFilters">
-      </ng-container>
-    </button>
-  </div>
-</div>
-
-<div class="filters-wrap" [@fadeInOut]="filterListIsOpen ? 'open' : 'close'">
-  <div class="f-row">
-    <div class="col">
-      <h3>category</h3>
-      <mat-form-field>
-        <mat-select placeholder="Choose category" multiple
-                    (selectionChange)="filteredByCategories()" [(ngModel)]="selectedCategories">
-          <mat-option *ngFor="let cat of categoriesArr"
-                      [value]="cat.title">{{cat.title}}</mat-option>
-        </mat-select>
-      </mat-form-field>
-    </div>
+<ng-container *ngIf="!loadingData">
+  <div class="filter-bl">
+    <h2>Filter by</h2>
 
     <div>
-      <h3 class="pl-10">date range</h3>
-      <div class="flex-row">
-        <div class="date">
-          <mat-form-field>
-            <input matInput [matDatepicker]="pickerFrom" [(ngModel)]="dateFrom"
-                   [min]="minDateFrom" [max]="maxDateFrom"
-                   placeholder="Choose date from" (dateChange)="selectDateFrom($event)">
-            <mat-datepicker-toggle matSuffix [for]="pickerFrom"></mat-datepicker-toggle>
-            <mat-datepicker #pickerFrom></mat-datepicker>
-          </mat-form-field>
-        </div>
-
-        <div class="date">
-          <mat-form-field>
-            <input matInput [matDatepicker]="pickerTo" [(ngModel)]="dateTo"
-                   [min]="minDateTo" [max]="maxDateTo"
-                   placeholder="Choose date to" (dateChange)="selectDateTo($event)">
-            <mat-datepicker-toggle matSuffix [for]="pickerTo"></mat-datepicker-toggle>
-            <mat-datepicker #pickerTo></mat-datepicker>
-          </mat-form-field>
-        </div>
-      </div>
+      <button mat-raised-button (click)="toggleFilters()">
+        <ng-container
+                *ngIf="filterListIsOpen; then closeFilters else openFilters">
+        </ng-container>
+      </button>
     </div>
+  </div>
 
-    <div class="col">
-      <div class="fullscreen">
-        <h3>&nbsp;</h3>
-        <button mat-icon-button (click)="clearFilters()">
-          <mat-icon aria-label="Clear filters">clear</mat-icon>
-        </button>
+  <div class="filters-wrap" [@fadeInOut]="filterListIsOpen ? 'open' : 'close'">
+    <div class="f-row">
+      <div class="col">
+        <h3>category</h3>
+        <mat-form-field>
+          <mat-select placeholder="Choose category" multiple
+                      (selectionChange)="filteredByCategories()" [(ngModel)]="selectedCategories">
+            <mat-option *ngFor="let cat of categoriesArr"
+                        [value]="cat.title">{{cat.title}}</mat-option>
+          </mat-select>
+        </mat-form-field>
       </div>
-      <div class="mobile">
-        <button mat-raised-button color="primary" (click)="clearFilters()"
-        >Clear filters <mat-icon>clear</mat-icon></button>
+
+      <div>
+        <h3 class="pl-10">date range</h3>
+        <div class="flex-row">
+          <div class="date">
+            <mat-form-field>
+              <input matInput [matDatepicker]="pickerFrom" [(ngModel)]="dateFrom"
+                     [min]="minDateFrom" [max]="maxDateFrom"
+                     placeholder="Choose date from" (dateChange)="selectDateFrom($event)">
+              <mat-datepicker-toggle matSuffix [for]="pickerFrom"></mat-datepicker-toggle>
+              <mat-datepicker #pickerFrom></mat-datepicker>
+            </mat-form-field>
+          </div>
+
+          <div class="date">
+            <mat-form-field>
+              <input matInput [matDatepicker]="pickerTo" [(ngModel)]="dateTo"
+                     [min]="minDateTo" [max]="maxDateTo"
+                     placeholder="Choose date to" (dateChange)="selectDateTo($event)">
+              <mat-datepicker-toggle matSuffix [for]="pickerTo"></mat-datepicker-toggle>
+              <mat-datepicker #pickerTo></mat-datepicker>
+            </mat-form-field>
+          </div>
+        </div>
+      </div>
+
+      <div class="col">
+        <div class="fullscreen">
+          <h3>&nbsp;</h3>
+          <button mat-icon-button (click)="clearFilters()">
+            <mat-icon aria-label="Clear filters">clear</mat-icon>
+          </button>
+        </div>
+        <div class="mobile">
+          <button mat-raised-button color="primary" (click)="clearFilters()"
+          >Clear filters <mat-icon>clear</mat-icon></button>
+        </div>
       </div>
     </div>
   </div>
-</div>
 
-<mat-tab-group>
-  <mat-tab label="Spending">
-    <h1 *ngIf="totalAmount > 0">Total: {{totalAmount | number:'1.0-2'}}</h1>
+  <mat-tab-group>
+    <mat-tab label="Spending">
+      <h1 *ngIf="totalAmount > 0">Total: {{totalAmount | number:'1.0-2'}}</h1>
 
-    <mat-card class="item" *ngFor="let item of filteredSpendingArr">
-      <div class="flex-row">
-        <span class="title">{{item.title}}</span>
-        <mat-card-title>{{item.cost | number: '1.2-2'}}</mat-card-title>
-      </div>
-      <div class="flex-row">
-        <mat-card-subtitle class="sub-flex-row">
-          <span>{{item.category}}</span>
-          <span>{{item.date | date}}</span>
-        </mat-card-subtitle>
-        <div class="actions">
-          <button mat-icon-button (click)="editSpending(item)">
-            <mat-icon aria-label="Edit spending">edit</mat-icon>
-          </button>
-          <button mat-icon-button (click)="deleteSpending(item.$key)">
-            <mat-icon aria-label="Remove spending">delete_outline</mat-icon>
-          </button>
+      <mat-card class="item" *ngFor="let item of filteredSpendingArr">
+        <div class="flex-row">
+          <span class="title">{{item.title}}</span>
+          <mat-card-title>{{item.cost | number: '1.2-2'}}</mat-card-title>
         </div>
+        <div class="flex-row">
+          <mat-card-subtitle class="sub-flex-row">
+            <span>{{item.category}}</span>
+            <span>{{item.date | date}}</span>
+          </mat-card-subtitle>
+          <div class="actions">
+            <button mat-icon-button (click)="editSpending(item)">
+              <mat-icon aria-label="Edit spending">edit</mat-icon>
+            </button>
+            <button mat-icon-button (click)="deleteSpending(item.$key)">
+              <mat-icon aria-label="Remove spending">delete_outline</mat-icon>
+            </button>
+          </div>
+        </div>
+      </mat-card>
+
+      <app-add-button (handleClick)="addSpending()"></app-add-button>
+    </mat-tab>
+    <mat-tab label="Chart">
+      <div class="p24" *ngIf="!data.length">Not data for chart</div>
+      <div class="chart-wrap" *ngIf="data.length">
+        <ngx-charts-pie-chart
+                [view]="view"
+                [scheme]="colorScheme"
+                [results]="data"
+                [legend]="showLegend"
+                [explodeSlices]="explodeSlices"
+                [labels]="showLabels"
+                [doughnut]="doughnut"
+                [gradient]="gradient"
+                (select)="onSelect($event)">
+        </ngx-charts-pie-chart>
       </div>
-    </mat-card>
-
-    <app-add-button (handleClick)="addSpending()"></app-add-button>
-  </mat-tab>
-  <mat-tab label="Chart">
-    Chart content
-
-    <ngx-charts-pie-chart
-            *ngIf="data.length"
-            [view]="view"
-            [scheme]="colorScheme"
-            [results]="data"
-            [legend]="showLegend"
-            [explodeSlices]="explodeSlices"
-            [labels]="showLabels"
-            [doughnut]="doughnut"
-            [gradient]="gradient"
-            (select)="onSelect($event)">
-    </ngx-charts-pie-chart>
-  </mat-tab>
-</mat-tab-group>
-
+    </mat-tab>
+  </mat-tab-group>
+</ng-container>
 
 <ng-template #openFilters>
   Open filters <mat-icon aria-label="Open filters">expand_more</mat-icon>

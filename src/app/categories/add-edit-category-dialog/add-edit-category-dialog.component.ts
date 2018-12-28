@@ -4,8 +4,7 @@ import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms'
 
 @Component({
   selector: 'app-add-edit-category-dialog',
-  templateUrl: './add-edit-category-dialog.component.html',
-  styleUrls: ['./add-edit-category-dialog.component.scss']
+  templateUrl: './add-edit-category-dialog.component.html'
 })
 export class AddEditCategoryDialogComponent implements OnInit {
     categoryForm = this.fb.group({

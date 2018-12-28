@@ -13,7 +13,6 @@ import { NotFoundComponent } from './not-found/not-found.component';
 const routes: Routes = [
     { path: '', redirectTo: '/welcome', pathMatch: 'full' },
     { path: 'welcome', component: WelcomeComponent },
-    // { path: 'main', component: SpendingComponent },
     { path: 'main', component: SpendingComponent, canActivate: [AuthGuard] },
     { path: 'categories', component: CategoriesComponent, canActivate: [AuthGuard] },
     { path: 'login', component: LoginComponent },

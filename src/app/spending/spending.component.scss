@@ -7,6 +7,10 @@
   padding-left: 10px;
 }
 
+.p24 {
+  padding: 24px;
+}
+
 .filter-bl {
   display: flex;
   justify-content: space-between;
@@ -88,6 +92,15 @@
   display: none;
 }
 
+.chart-wrap {
+  ngx-charts-pie-chart {
+    display: block;
+    width: 700px;
+    margin-left: auto;
+    margin-right: auto;
+  }
+}
+
 @media screen and (max-width: 767.98px) {
   .fullscreen {
     display: none;
@@ -106,6 +119,29 @@
 
     .flex-row {
       display: block;
+    }
+  }
+
+  .chart-wrap {
+    ngx-charts-pie-chart {
+      width: 320px;
+
+      ::ng-deep {
+        ngx-charts-chart {
+          display: block;
+          width: 100% !important;
+
+          .ngx-charts-outer {
+            width: 100% !important;
+            .ngx-charts {
+              width: 100% !important;
+              .pie-chart {
+                transform: translate(158px, 150px);
+              }
+            }
+          }
+        }
+      }
     }
   }
 }

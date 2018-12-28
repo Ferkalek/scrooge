@@ -1,10 +1,9 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Subscription } from 'rxjs/Subscription';
-import { MatDialog } from '@angular/material';
+import { MatDialog, MatSnackBar } from '@angular/material';
 
 import { AddEditCategoryDialogComponent } from './add-edit-category-dialog/add-edit-category-dialog.component';
 import { CategoriesService } from './categories.service';
-import {AddEditSpendingDialogComponent} from "../spending/add-edit-spending-dialog/add-edit-spending-dialog.component";
 
 @Component({
   selector: 'app-categories',
@@ -12,13 +11,13 @@ import {AddEditSpendingDialogComponent} from "../spending/add-edit-spending-dial
   styleUrls: ['./categories.component.scss']
 })
 export class CategoriesComponent implements OnInit, OnDestroy {
-  submitted: boolean;
-  showSuccessMessage = false;
+  loadingData = true;
   subscriptions: Subscription[] = [];
   categoriesArr = [];
   constructor(
       private dialog: MatDialog,
-      private categoriesService: CategoriesService
+      private categoriesService: CategoriesService,
+      private snackBar: MatSnackBar
   ) { }
 
   ngOnInit() {
@@ -30,24 +29,21 @@ export class CategoriesComponent implements OnInit, OnDestroy {
                     ...category.payload.val()
                 };
             });
+
+            this.loadingData = false;
         }));
   }
 
   addCategory() {
-    console.log('!! addCategory');
-
     const dialogRef = this.dialog.open(AddEditCategoryDialogComponent, { width: '250px' });
 
     dialogRef.afterClosed()
         .subscribe(result => {
-          console.log('result', result);
-
             if (result) {
-                this.submitted = true;
                 this.categoriesService.addCategory(result);
-                this.showSuccessMessage = true;
-                setTimeout(() => this.showSuccessMessage = false, 2000);
-                this.submitted = false;
+                this.snackBar.open('Category was added successfully', '', {
+                    duration: 2000,
+                });
             }
         })
   }
@@ -61,11 +57,10 @@ export class CategoriesComponent implements OnInit, OnDestroy {
         dialogRef.afterClosed()
             .subscribe(result => {
                 if (result) {
-                    this.submitted = true;
                     this.categoriesService.updateCategory(result);
-                    // this.showSuccessMessage = true;
-                    // setTimeout(() => this.showSuccessMessage = false, 2000);
-                    this.submitted = false;
+                    this.snackBar.open('Category was changed', '', {
+                        duration: 2000,
+                    });
                 }
             });
     }
@@ -73,6 +68,9 @@ export class CategoriesComponent implements OnInit, OnDestroy {
     deleteCategory(key) {
         if (confirm('Are you sure to delete category?')) {
             this.categoriesService.deleteCategory(key);
+            this.snackBar.open('Category was deleted', '', {
+                duration: 2000,
+            });
         }
     }
 

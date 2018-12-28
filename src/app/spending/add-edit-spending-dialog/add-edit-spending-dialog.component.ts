@@ -6,8 +6,7 @@ import { CategoriesService } from '../../categories/categories.service';
 
 @Component({
   selector: 'app-add-edit-spending-dialog',
-  templateUrl: './add-edit-spending-dialog.component.html',
-  styleUrls: ['./add-edit-spending-dialog.component.scss']
+  templateUrl: './add-edit-spending-dialog.component.html'
 })
 export class AddEditSpendingDialogComponent implements OnInit, OnDestroy {
     subscriptions: Subscription[] = [];
@@ -36,11 +35,6 @@ export class AddEditSpendingDialogComponent implements OnInit, OnDestroy {
               });
 
               if (this.passedData) {
-                  console.log('passedData', this.passedData);
-                  console.log('categoriesList', this.categoriesList);
-                  if (this.categoriesList.find(c => c.title === this.passedData.category)) {
-                      console.log('>>>', this.categoriesList.find(c => c.title === this.passedData.category).$key);
-                  }
                   this.spendingForm.setValue({
                       $key: this.passedData.$key,
                       title: this.passedData.title,

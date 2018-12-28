@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { NgForm, FormControl, FormGroup, Validators } from '@angular/forms';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
 
 import { AuthService } from '../auth.service';
 
@@ -22,7 +22,7 @@ export class PasswordValidator {
 export class RegistrationComponent implements OnInit {
     signupForm: FormGroup;
     constructor(
-      private authService: AuthService
+        private authService: AuthService
     ) { }
 
     ngOnInit() {
@@ -30,9 +30,7 @@ export class RegistrationComponent implements OnInit {
             'email': new FormControl('', [
                 Validators.required,
                 Validators.email
-            ],
-                // this.forbiddenEmails.bind(this)
-            ),
+            ]),
             'password': new FormControl(null, [
                 Validators.required,
                 Validators.minLength(6)
@@ -45,27 +43,9 @@ export class RegistrationComponent implements OnInit {
         },(f: FormGroup) => PasswordValidator.passwordMatchValidator(f));
     }
 
-    onRegistration(form: NgForm) {
-      this.authService.registrUser({
-          email: form.value.email,
-          password: form.value.password
-      });
-    }
-
     onSignup() {
-        console.log('onSubmit', this.signupForm);
-    }
+        const {email, password} = this.signupForm.value;
 
-    // forbiddenEmails(control: FormControl): Promise<any> {
-    //     return new Promise((resolve, reject) => {
-    //         this.usersService.getUserByEmail(control.value)
-    //             .subscribe((user: User) => {
-    //                 if (user) {
-    //                     resolve({forbiddenEmail: true});
-    //                 } else {
-    //                     resolve(null);
-    //                 }
-    //             });
-    //     });
-    // }
+        this.authService.registrUser({email, password});
+    }
 }

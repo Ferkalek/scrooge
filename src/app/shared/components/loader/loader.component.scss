@@ -1,0 +1,21 @@
+.loader {
+  display: flex;
+  position: fixed;
+  top: 64px;
+  left: 0;
+  right: 0;
+  bottom: 0;
+
+  mat-spinner {
+    width: 36px !important;
+    height: 36px !important;
+    margin: auto;
+
+    ::ng-deep {
+      svg {
+        width: 100% !important;
+        height: 100% !important;
+      }
+    }
+  }
+}

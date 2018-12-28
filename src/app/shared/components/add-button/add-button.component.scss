@@ -1,10 +1,12 @@
 :host {
-  display: block;
-  width: 100%;
   position: fixed;
   bottom: 0;
-  left: 0;
+  left: calc(50% + 264px);
   z-index: 2;
+
+  @media screen and (max-width: 767.98px) {
+    left: calc(100% - 88px);
+  }
 }
 
 .add-button {

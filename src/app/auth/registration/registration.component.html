@@ -42,11 +42,12 @@
     </mat-form-field>
   </div>
   <div class="mb-4">
+    <p class="sub-text">This application was created for personal use. By registering in it, you agree to act on the guest’s fault and not to make any claims, as he does not bear any responsibility</p>
     <mat-checkbox
             formControlName="agree"
             color="primary"
             required
-    >Agree to terms and conditions</mat-checkbox>
+    >I agree</mat-checkbox>
   </div>
   <div class="text-center">
     <button
@@ -60,73 +61,3 @@
 <div class="text-center p-4">
   <a class="link" routerLink="/login">I have an account</a>
 </div>
-
-<!--
-<form
-        class="max-width-320 content-center px-4"
-        (ngSubmit)="onRegistration(f)"
-        #f="ngForm">
-  <mat-form-field>
-    <input
-            type="email"
-            name="email"
-            ngModel
-            matInput
-            placeholder="Email"
-            email
-            required
-            #emailInput="ngModel"
-    >
-    <mat-error *ngIf="emailInput.hasError('required')">Field not must be empty</mat-error>
-    <mat-error *ngIf="!emailInput.hasError('required')">Email is invalid</mat-error>
-  </mat-form-field>
-
-  <div class="mb-2">
-    <mat-form-field hintLabel="Should be at least 6 characters long">
-      <input
-              type="password"
-              name="password"
-              ngModel
-              matInput
-              placeholder="Password"
-              minlength="6"
-              required
-              #pwInput="ngModel"
-      >
-      <mat-hint align="end">{{pwInput.value?.length}} / 6</mat-hint>
-      <mat-error>Has to be at least 6 characters long</mat-error>
-    </mat-form-field>
-  </div>
-
-  <div class="mb-4">
-    <mat-form-field>
-      <input
-              type="password"
-              name="password2"
-              ngModel
-              matInput
-              placeholder="Repeat password"
-              required
-              #pw2Input="ngModel"
-      >
-      <mat-error>The value must not be different.</mat-error>
-    </mat-form-field>
-  </div>
-  <div class="mb-4">
-    <mat-checkbox
-            ngModel
-            name="agree"
-            color="primary"
-            required
-    >Agree to terms and conditions</mat-checkbox>
-  </div>
-  <div class="text-center">
-    <button
-            mat-raised-button
-            type="submit"
-            color="primary"
-            [disabled]="f.form.invalid"
-    >Signup</button>
-  </div>
-</form>
--->

@@ -1,14 +1,7 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
-import {
-    trigger,
-    state,
-    style,
-    animate,
-    transition,
-    group
-} from '@angular/animations';
+import { trigger, state, style, animate, transition } from '@angular/animations';
 import { Subscription } from 'rxjs/Subscription';
-import { MatDialog, MatDatepickerInputEvent } from '@angular/material';
+import { MatDialog, MatDatepickerInputEvent, MatSnackBar } from '@angular/material';
 
 import { SpendingService } from './spending.service';
 import { AddEditSpendingDialogComponent } from './add-edit-spending-dialog/add-edit-spending-dialog.component';
@@ -20,46 +13,15 @@ import { CategoriesService } from '../categories/categories.service';
   styleUrls: ['./spending.component.scss'],
   animations: [
       trigger('fadeInOut', [
-          // state('void', style({
-          //     opacity: 0
-          // })),
-          // transition('void <=> *', animate(1000)),
-          // transition('void => *', animate(1000)),
-          // transition('* => void', animate(500)),
-
-
-          state('open', style({
-              height: '*',
-              opacity: 1
-          })),
-          state('close', style({
-              height: 0,
-              opacity: 0
-          })),
+          state('open', style({ height: '*', opacity: 1 })),
+          state('close', style({ height: 0, opacity: 0 })),
           transition('close=>open', animate('300ms')),
           transition('open=>close', animate('200ms ease-in-out'))
-
-          // state('in', style({height: '*', opacity: 0})),
-          // transition(':leave', [
-          //     style({height: '*', opacity: 1}),
-          //     group([
-          //         animate(300, style({height: 0})),
-          //         animate('200ms ease-in-out', style({'opacity': '0'}))
-          //     ])
-          // ]),
-          // transition(':enter', [
-          //     style({height: '0', opacity: 0}),
-          //     group([
-          //         animate(300, style({height: '*'})),
-          //         animate('400ms ease-in-out', style({'opacity': '1'}))
-          //     ])
-          // ])
       ])
   ]
 })
 export class SpendingComponent implements OnInit, OnDestroy {
-    submitted: boolean;
-    showSuccessMessage = false;
+    loadingData = true;
     filterListIsOpen = false;
     spendingArr = [];
     filteredSpendingArr = [];
@@ -76,23 +38,24 @@ export class SpendingComponent implements OnInit, OnDestroy {
     maxDateTo = new Date();
 
     data = [];
-    view = [545, 375];
+    view = [700, 300];
     // options
-    showLegend = false;
+    showLegend = true;
     gradient = false;
     colorScheme = {
-        domain: ['#46b6ac', '#08328c', '#db4b4b', '#804c9e']
+        domain: [ '#46b6ac', '#08328c', '#db4b4b', '#804c9e', '#29e831', '#8a2929', '#544f4f', '#e418dc', '#1e2242', '#d86511']
     };
 
     // pie
     showLabels = true;
     explodeSlices = false;
-    doughnut = true;
+    doughnut = false;
 
     constructor(
       private spendingService: SpendingService,
       private categoriesService: CategoriesService,
-      private dialog: MatDialog
+      private dialog: MatDialog,
+      private snackBar: MatSnackBar
     ) {}
 
     ngOnInit() {
@@ -130,6 +93,7 @@ export class SpendingComponent implements OnInit, OnDestroy {
     }
 
     onFilteredSpendingArr() {
+        this.loadingData = true;
         if (this.selectedCategories.length) {
             this.filteredSpendingArr = this.spendingArr.filter(s => this.selectedCategories.indexOf(s.category) !== -1);
         } else {
@@ -143,8 +107,14 @@ export class SpendingComponent implements OnInit, OnDestroy {
             this.filteredSpendingArr = this.filteredSpendingArr.filter(s => s.date >= dateFrom && s.date <= dateTo);
         }
 
+        this.filteredSpendingArr = this.filteredSpendingArr.sort(function(a, b) {
+            return b.date - a.date
+        });
+
         this.getTotalAmount();
         this.getDataForChart();
+
+        this.loadingData = false;
     }
 
     getTotalAmount() {
@@ -196,11 +166,11 @@ export class SpendingComponent implements OnInit, OnDestroy {
         dialogRef.afterClosed()
             .subscribe(result => {
                 if (result) {
-                    this.submitted = true;
                     this.spendingService.addSpending(result);
-                    this.showSuccessMessage = true;
-                    setTimeout(() => this.showSuccessMessage = false, 2000);
-                    this.submitted = false;
+                    this.snackBar.open('Spending was added successfully', '', {
+                        duration: 2000,
+                    });
+                    this.maxDateTo = new Date();
                 }
             });
     }
@@ -214,11 +184,10 @@ export class SpendingComponent implements OnInit, OnDestroy {
         dialogRef.afterClosed()
             .subscribe(result => {
                 if (result) {
-                    this.submitted = true;
                     this.spendingService.updateSpending(result);
-                    // this.showSuccessMessage = true;
-                    // setTimeout(() => this.showSuccessMessage = false, 2000);
-                    this.submitted = false;
+                    this.snackBar.open('Spending was changed', '', {
+                        duration: 2000,
+                    });
                 }
             });
     }
@@ -226,6 +195,9 @@ export class SpendingComponent implements OnInit, OnDestroy {
     deleteSpending(key) {
         if (confirm('Are you sure to delete spending?')) {
             this.spendingService.deleteSpending(key);
+            this.snackBar.open('Spending was deleted', '', {
+                duration: 2000,
+            });
         }
     }
 
